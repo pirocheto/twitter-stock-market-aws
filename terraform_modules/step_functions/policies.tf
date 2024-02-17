@@ -32,7 +32,7 @@ resource "aws_iam_policy" "step_functions_policy" {
       {
         Effect   = "Allow",
         Action   = ["events:RetrieveConnectionCredentials"],
-        Resource = "*"
+        Resource = "arn:aws:events:*:*:connection/${aws_cloudwatch_event_connection.finnhub_connection.name}/*"
       },
       {
         Effect = "Allow",
