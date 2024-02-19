@@ -40,16 +40,17 @@ resource "aws_sfn_state_machine" "step_funcions" {
           "Key.$"     = "States.Format('stock_market/landing/{}.json', States.UUID())"
           "Body.$"    = "$"
         },
-        Next = "Glue StartJobRun"
+        end = true
+        # Next = "Glue StartJobRun"
       },
-      "Glue StartJobRun" : {
-        Type     = "Task",
-        Resource = "arn:aws:states:::glue:startJobRun",
-        Parameters = {
-          JobName = "transform_stock_market_data"
-        },
-        End = true
-      }
+      # "Glue StartJobRun" : {
+      #   Type     = "Task",
+      #   Resource = "arn:aws:states:::glue:startJobRun",
+      #   Parameters = {
+      #     JobName = "stock_market_transform"
+      #   },
+      #   End = true
+      # }
     }
   })
 }
