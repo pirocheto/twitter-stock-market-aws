@@ -16,11 +16,11 @@ resource "aws_s3_object" "job_script" {
 
 
 resource "aws_glue_job" "glue_job" {
-  name              = "glue_job_test_terr"
+  name              = "stock_market_transform"
   role_arn          = aws_iam_role.glue_role.arn
   glue_version      = "4.0"
   worker_type       = "G.1X"
-  number_of_workers = 1
+  number_of_workers = 2
 
 
   command {
