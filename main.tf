@@ -9,3 +9,8 @@ module "step_functions" {
   finnhub_api_key = file(".FINNHUB_API_KEY")
 }
 
+module "glue_job" {
+  source          = "./terraform_modules/glue_job"
+  glue_job_script = "${path.module}/scripts/glue_job.py"
+  bucket_name     = module.data_lake_s3_bucket.bucket_name
+}

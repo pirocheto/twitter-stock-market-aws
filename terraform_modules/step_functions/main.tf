@@ -37,8 +37,16 @@ resource "aws_sfn_state_machine" "step_funcions" {
         Parameters = {
           Bucket      = var.bucket_name
           ContentType = "application/json"
-          "Key.$"     = "States.Format('stock_market/raw/{}.json', States.UUID())"
+          "Key.$"     = "States.Format('stock_market/landing/{}.json', States.UUID())"
           "Body.$"    = "$"
+        },
+        Next = "Glue StartJobRun"
+      },
+      "Glue StartJobRun" : {
+        Type     = "Task",
+        Resource = "arn:aws:states:::glue:startJobRun",
+        Parameters = {
+          JobName = "transform_stock_market_data"
         },
         End = true
       }
@@ -49,7 +57,8 @@ resource "aws_sfn_state_machine" "step_funcions" {
 resource "aws_cloudwatch_event_rule" "trigger_rule" {
   name                = "step_function_trigger_rule"
   description         = "Rule to trigger Step Function every 2 minutes"
-  schedule_expression = "rate(5 minutes)"
+  schedule_expression = "rate(2 hours)"
+  state               = "DISABLED"
 }
 
 resource "aws_cloudwatch_event_target" "step_function_target" {

@@ -42,6 +42,11 @@ resource "aws_iam_policy" "step_functions_policy" {
         ],
         Resource = "arn:aws:secretsmanager:*:*:secret:events!connection/*"
       },
+      {
+        Effect   = "Allow"
+        Action   = ["glue:StartJobRun"],
+        Resource = "*"
+      },
     ]
   })
 }
